@@ -8,6 +8,9 @@ router.get('/', geoObjectController.getAll);
 
 router.get('/byId/:id', geoObjectController.getOne);
 
+/* GET near geo objects via ES. */
+router.get('/test/:lat/:lon/:distance', geoObjectController.findNearES);
+
 /* GET near geo objects. */
 router.get('/near/:lat/:lon/:distance', geoObjectController.findNear);
 

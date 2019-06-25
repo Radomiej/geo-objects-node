@@ -7,3 +7,19 @@ services:
       MONGO_INITDB_DATABASE: geo-objects-dev
     ports:
       - 27017:27017
+
+  elastic_search:
+    image: elasticsearch:7.1.1
+    container_name: "elasticsearch"
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    ports:
+      - 9200:9200
+      - 9300:9300/udp
+
+  elastic_search-hq:
+    image: elastichq/elasticsearch-hq
+    container_name: "elasticsearch-hq"
+    ports:
+      - 5000:5000

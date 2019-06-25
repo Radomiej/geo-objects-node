@@ -70,6 +70,42 @@ exports.findNear = function (req, res) {
     });
 };
 
+exports.findNearES = function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+
+    console.log("Search via ES");
+
+    let latitude = 52;
+    let longitude = 16;
+    // Max distance to search
+    let maxDistance = 1000;
+    if(req.params['distance'] !== 'undefined'){
+        maxDistance = req.params['distance']
+    }
+
+    GeoObject.esSearch({
+        bool: {
+            must: {
+                match_all: {}
+            },
+            filter: {
+                geo_distance:{
+                    distance: maxDistance,
+                    "location": {
+                        lat: latitude,
+                        lon: longitude
+                    }
+                }
+            }
+        }
+    }).then(function (results) {
+        // results here
+        console.log("Search via ES: " + results);
+    });
+
+    return res.json({ status: 'OK' })
+};
+
 exports.addOne = function (req, res) {
     clearCache();
   
@@ -81,8 +117,8 @@ exports.addOne = function (req, res) {
     geoObject._id = null;
 
     geoObject.save(function (err) {
-        console.error(err);
         if (err) {
+            console.error(err);
             let errorResponse = {
                 error: "Cannot add geo object",
                 errorDetail: err.toString()
