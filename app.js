@@ -21,7 +21,7 @@ app.use('/objects', objectsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -81,7 +81,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 console.log('MongoDB: ' + mongoDB);
-//console.err('MongoDB: ' + mongoDB);
 
 //Run server
 const server = app.listen(app.get('port'), function () {

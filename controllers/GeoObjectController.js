@@ -20,13 +20,13 @@ exports.getAll = function (req, res) {
     
   
     GeoObject.find().exec(function (err, products) {
-    
-        var transformedProducts = products.map(function (product) {
+
+        let transformedProducts = products.map(function (product) {
             return product.toJSON();
         });
 
-        
-        var json = JSON.stringify(transformedProducts)
+
+        let json = JSON.stringify(transformedProducts)
         cachedGeoObjects = json;
         res.send(json);
         
@@ -46,8 +46,6 @@ exports.getOne = function (req, res) {
 
 exports.findNear = function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-
-    console.log('find near: ' + req);
 
     let latitude = req.params['lat'];
     let longitude = req.params['lon'];
@@ -118,12 +116,12 @@ exports.getGeoObjectByType = function (req, res) {
 
     GeoObject.find({ 'type': req.params['type'] }).exec(function (err, products) {
 
-        var transformedProducts = products.map(function (product) {
+        let transformedProducts = products.map(function (product) {
             return product.toJSON();
         });
 
 
-        var json = JSON.stringify(transformedProducts);
+        let json = JSON.stringify(transformedProducts);
         res.send(json);
     });
 };
@@ -144,13 +142,11 @@ exports.restoreProducts = function (req, res) {
 };
 
 function restoreProductsTwo(req, res) {
-    console.log('Product two');
     req.body.forEach(function (productModel) {
         productModel._id = productModel.id;
         delete productModel.id;
 
-        //console.log(productModel);
-        var product = new GeoObject(productModel);
+        let product = new GeoObject(productModel);
         product.save(function (err) {
             if (err) {
                 console.error(err);
