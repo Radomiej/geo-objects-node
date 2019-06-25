@@ -47,9 +47,10 @@ exports.getOne = function (req, res) {
 exports.findNear = function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
+    console.log('find near: ' + req);
 
     let latitude = req.params['lat'];
-    let longitude = req.params['lat'];
+    let longitude = req.params['lon'];
     // Max distance to search
     let maxDistance = 1000;
     if(req.params['distance'] !== 'undefined'){
@@ -77,8 +78,9 @@ exports.addOne = function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
     const geoObject = new GeoObject();
-    geoObject.name = req.body.name;
-    geoObject.age = req.body.age;
+    geoObject.type = req.body.type;
+    geoObject.location = req.body.location;
+    geoObject._id = null;
 
     geoObject.save(function (err) {
         console.error(err);

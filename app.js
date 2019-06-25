@@ -1,13 +1,14 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var debug = require('debug');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const debug = require('debug');
+const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
-var objectsRouter = require('./routes/objects');
+const indexRouter = require('./routes/index');
+const objectsRouter = require('./routes/objects');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -49,7 +50,7 @@ app.use(function (err, req, res, next) {
     });
 });
 
-app.set('port', process.env.PORT || 1337);
+app.set('port', process.env.PORT || 3000);
 
 
 
@@ -58,8 +59,7 @@ let mongoDbHost = process.env.MONGODB_HOST || 'localhost';
 let mongoDbPort = process.env.MONGODB_PORT || '27017';
 let mongoDbDatabase = process.env.MONGODB_DATABASE || 'geo-objects-dev';
 
-//Import the mongoose module
-var mongoose = require('mongoose');
+
 
 //Setup new features
 mongoose.set('useNewUrlParser', true);
@@ -67,12 +67,12 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://' + mongoDbHost + ':' + mongoDbPort + '/' + mongoDbDatabase;
+const mongoDB = 'mongodb://' + mongoDbHost + ':' + mongoDbPort + '/' + mongoDbDatabase;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
 //Get the default connection
-var db = mongoose.connection;
+const db = mongoose.connection;
 
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -84,8 +84,9 @@ console.log('MongoDB: ' + mongoDB);
 //console.err('MongoDB: ' + mongoDB);
 
 //Run server
-var server = app.listen(app.get('port'), function () {
+const server = app.listen(app.get('port'), function () {
     debug('Express server listening on port ' + server.address().port);
+    console.log('Express server listening on port ' + server.address().port);
 });
 
 module.exports = app;

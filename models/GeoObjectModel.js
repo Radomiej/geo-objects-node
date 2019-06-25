@@ -2,11 +2,13 @@
 const Schema = mongoose.Schema;
 
 const polygonSchema = new mongoose.Schema({
+    _id: {type: Schema.Types.ObjectId, required: false},
     type: {type: String, enum: ['Polygon'], required: true},
     coordinates: {type: [[[Number]]], required: true}
 });
 
 const pointSchema = new mongoose.Schema({
+    _id: {type: Schema.Types.ObjectId, required: false},
     type: {type: String, enum: ['Point'], required: true},
     coordinates: {type: [Number], required: true}
 });
